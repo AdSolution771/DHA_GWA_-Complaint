@@ -12,7 +12,7 @@ public class ComplaintCategoryController : ControllerBase
     {
         _context = context;
     }
-
+    //test one
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _context.ComplaintCategories.ToListAsync());
 
