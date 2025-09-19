@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/DHA_GWA_-Complaint/FileContentIndex
+/.vs/DHA_GWA_-Complaint/v17
+/.vs
+/WebUI/.config
+/WebUI/Configs
