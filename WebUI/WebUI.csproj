@@ -28,6 +28,8 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+
+
   <ItemGroup>
     <EditorConfigFiles Remove="E:\Dotnet Core\WebUI\.editorconfig" />
   </ItemGroup>

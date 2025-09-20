@@ -10,10 +10,16 @@ public class FirebaseNotificationService
     private readonly string _projectId;
     private readonly string _serviceAccountFile;
 
-    public FirebaseNotificationService(IConfiguration config)
+    // ✅ Inject IConfiguration + IWebHostEnvironment
+    public FirebaseNotificationService(IConfiguration config, IWebHostEnvironment env)
     {
         _projectId = config["Firebase:ProjectId"];
-        _serviceAccountFile = config["Firebase:ServiceAccountFile"];
+
+        // Get relative path from config
+        var relativePath = config["Firebase:ServiceAccountFile"];
+
+        // Combine with app's root folder so it works everywhere
+        _serviceAccountFile = Path.Combine(env.ContentRootPath, relativePath);
     }
 
     private async Task<string> GetAccessTokenAsync()
@@ -47,10 +53,15 @@ public class FirebaseNotificationService
         };
 
         var jsonMessage = JsonConvert.SerializeObject(message);
-        using var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-        var response = await httpClient.PostAsync(url, new StringContent(jsonMessage, Encoding.UTF8, "application/json"));
+        using var httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", accessToken);
+
+        var response = await httpClient.PostAsync(
+            url,
+            new StringContent(jsonMessage, Encoding.UTF8, "application/json")
+        );
 
         return response.IsSuccessStatusCode;
     }
